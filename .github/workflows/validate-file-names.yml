@@ -16,7 +16,7 @@ jobs:
 
     - name: Check for invalid file names
       run: |
-        invalid_files=$(git ls-tree -r HEAD --name-only | grep -E '[^a-z0-9.-/]' || true)
+        invalid_files=$(git ls-tree -r HEAD --name-only | grep -E '[^a-z0-9._/-]' || true)
         if [ -n "$invalid_files" ]; then
           echo "Invalid file names detected:"
           echo "$invalid_files"
