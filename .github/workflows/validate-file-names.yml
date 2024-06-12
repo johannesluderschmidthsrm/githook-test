@@ -1,0 +1,28 @@
+name: Validate File Names
+
+on:
+  push:
+    branches:
+      - main
+      - '**/feature/**'
+
+jobs:
+  validate-file-names:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Check for invalid file names
+      run: |
+        invalid_files=$(git diff --cached --name-only --diff-filter=A | grep -E '[^a-z0-9.-/]' || true)
+        if [[ -n "$invalid_files" ]]; then
+          echo "Invalid file names detected:"
+          echo "$invalid_files"
+          exit 1
+        fi
+
+    - name: Fail if invalid files are found
+      if: failure()
+      run: exit 1
