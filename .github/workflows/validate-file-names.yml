@@ -16,8 +16,8 @@ jobs:
 
     - name: Check for invalid file names
       run: |
-        invalid_files=$(git diff --cached --name-only --diff-filter=A | grep -E '[^a-z0-9.-/]' || true)
-        if [[ -n "$invalid_files" ]]; then
+        invalid_files=$(git ls-tree -r HEAD --name-only | grep -E '[^a-z0-9.-/]' || true)
+        if [ -n "$invalid_files" ]; then
           echo "Invalid file names detected:"
           echo "$invalid_files"
           exit 1
